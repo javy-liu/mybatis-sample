@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.oyach.mybatis.dao.TeacherMapper">
+
+
+    <sql id="all_fields">
+        id, name, owner
+    </sql>
+
+    <select id="existTeacher" resultType="java.lang.Boolean">
+        SELECT 1 FROM teacher WHERE id = #{id} limit 1
+    </select>
+
+    <select id="findById" resultType="org.oyach.mybatis.domain.Teacher">
+        SELECT <include refid="all_fields"/> FROM teacher WHERE id = #{id} limit 1
+    </select>
+
+    <select id="findOwnerCourse" resultType="org.oyach.mybatis.domain.Course">
+         SELECT id, name FROM course WHERE owner = #{id}
+    </select>
+
+    <select id="findLastCourse" resultType="org.oyach.mybatis.domain.Course">
+        SELECT id, name FROM course WHERE owner = #{id} order by id DESC limit 1
+    </select>
+
+</mapper>

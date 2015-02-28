@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.oyach.mybatis.dao.CourseMapper">
+
+    <resultMap id="course" type="org.oyach.mybatis.domain.Course">
+        <result property="name" column="course_name" jdbcType="VARCHAR"/>
+        <result property="id" column="course_id" jdbcType="BIGINT"/>
+        <association property="owner" javaType="org.oyach.mybatis.domain.Teacher">
+            <result property="id" column="teacher_id" jdbcType="BIGINT"/>
+            <result property="name" column="teacher_name" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <select id="findById" resultMap="course">
+        SELECT
+            c.id   AS course_id,
+            c.name AS course_name,
+            t.id   AS teacher_id,
+            t.name AS teacher_name
+        FROM course c JOIN teacher t ON c.owner = t.id
+        WHERE c.id = #{id}
+    </select>
+</mapper>
