@@ -116,7 +116,8 @@ public class SplitTablePlugin implements Interceptor {
 //            SimpleExecutor simpleExecutor = (SimpleExecutor) executor;
 //
 //        }
-        invocation.proceed();
+        Method method = invocation.getMethod();
+
         return invocation.proceed();
     }
 
