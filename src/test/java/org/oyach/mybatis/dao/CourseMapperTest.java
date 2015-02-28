@@ -17,4 +17,11 @@ public class CourseMapperTest extends AppTest{
         Course course = courseMapper.findById(1L);
         System.out.println(course);
     }
+
+
+    @Test
+    public void testFindByIdAndName() throws Exception {
+        Course course = courseMapper.findByIdAndName(1L, "11111");
+        System.out.println(course);
+    }
 }

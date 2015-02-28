@@ -1,29 +1,16 @@
 package org.oyach.mybatis.dataSources.plugin;
 
-import com.alibaba.druid.sql.ast.SQLExpr;
-import com.alibaba.druid.sql.ast.SQLName;
-import com.alibaba.druid.sql.ast.SQLStatement;
-import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
-import com.alibaba.druid.sql.ast.statement.*;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock;
-import com.alibaba.druid.sql.dialect.mysql.parser.MySqlCreateTableParser;
-import com.alibaba.druid.sql.dialect.mysql.parser.MySqlStatementParser;
-import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlOutputVisitor;
-import org.apache.ibatis.builder.SqlSourceBuilder;
 import org.apache.ibatis.builder.StaticSqlSource;
 import org.apache.ibatis.executor.Executor;
-import org.apache.ibatis.executor.SimpleExecutor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.*;
-import org.apache.ibatis.scripting.defaults.RawSqlSource;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Properties;
 
 /**
@@ -53,26 +40,28 @@ public class SplitTablePlugin implements Interceptor {
         BoundSql boundSql = sqlSource.getBoundSql(args[1]);
         String sql = boundSql.getSql();
         // 解析sql 设置表名
-        StringBuilder out = new StringBuilder();
-        MySqlOutputVisitor visitor = new MySqlOutputVisitor(out);
-        MySqlStatementParser parser = new MySqlStatementParser(sql);
+//        StringBuilder out = new StringBuilder();
+//        MySqlOutputVisitor visitor = new MySqlOutputVisitor(out);
+//        MySqlStatementParser parser = new MySqlStatementParser(sql);
+//
+//        List<SQLStatement> statementList = parser.parseStatementList();
+//        SQLStatement sqlStatement = statementList.get(0);
+//
+//        SQLSelectStatement sqlSelectStatement = (SQLSelectStatement) sqlStatement;
+//        SQLSelect sqlSelect = sqlSelectStatement.getSelect();
+//        MySqlSelectQueryBlock sqlSelectQuery = (MySqlSelectQueryBlock) sqlSelect.getQuery();
+//        SQLJoinTableSource sqlTableSource = (SQLJoinTableSource) sqlSelectQuery.getFrom();
+//
+//        String alias = sqlTableSource.getAlias();
+//        SQLExprTableSource sqlTableSourceLeft = (SQLExprTableSource) sqlTableSource.getLeft();
+//        SQLIdentifierExpr table = (SQLIdentifierExpr) sqlTableSourceLeft.getExpr();
+//        String name = table.getName();
+//
+//        table.setName(tableName);
+//        sqlStatement.accept(visitor);
+//        String newSql = out.toString();
 
-        List<SQLStatement> statementList = parser.parseStatementList();
-        SQLStatement sqlStatement = statementList.get(0);
-
-        SQLSelectStatement sqlSelectStatement = (SQLSelectStatement) sqlStatement;
-        SQLSelect sqlSelect = sqlSelectStatement.getSelect();
-        MySqlSelectQueryBlock sqlSelectQuery = (MySqlSelectQueryBlock) sqlSelect.getQuery();
-        SQLJoinTableSource sqlTableSource = (SQLJoinTableSource) sqlSelectQuery.getFrom();
-
-        String alias = sqlTableSource.getAlias();
-        SQLExprTableSource sqlTableSourceLeft = (SQLExprTableSource) sqlTableSource.getLeft();
-        SQLIdentifierExpr table = (SQLIdentifierExpr) sqlTableSourceLeft.getExpr();
-        String name = table.getName();
-
-        table.setName(tableName);
-        sqlStatement.accept(visitor);
-        String newSql = out.toString();
+        String newSql = "";
 
         Class<?> sqlSourceClass = sqlSource.getClass();
         Field fieldSqlSource = sqlSourceClass.getDeclaredField("sqlSource");

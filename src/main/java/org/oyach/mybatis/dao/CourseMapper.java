@@ -12,4 +12,7 @@ public interface CourseMapper {
 
     @DataSource("dbWmRead")
     Course findById(long id);
+
+    @DataSource("dbWmRead")
+    Course findByIdAndName(long id, String name);
 }

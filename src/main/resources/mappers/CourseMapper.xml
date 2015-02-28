@@ -23,4 +23,13 @@
         FROM course c JOIN teacher t ON c.owner = t.id
         WHERE c.id = #{id}
     </select>
+    <select id="findByIdAndName" resultType="org.oyach.mybatis.domain.Course">
+        SELECT
+            c.id   AS course_id,
+            c.name AS course_name,
+            t.id   AS teacher_id,
+            t.name AS teacher_name
+        FROM course c JOIN teacher t ON c.owner = t.id
+        WHERE c.id = #{id} AND c.name = #{name}
+    </select>
 </mapper>
