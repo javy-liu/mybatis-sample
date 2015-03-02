@@ -17,7 +17,10 @@
     </settings>
     
     <plugins>
-        <plugin interceptor="org.oyach.mybatis.dataSources.plugin.SplitTablePlugin">
+        <!--<plugin interceptor="org.oyach.mybatis.dataSources.plugin.SplitTablePlugin">-->
+            <!--<property name="tableName" value="course:course,course2"/>-->
+        <!--</plugin>-->
+        <plugin interceptor="org.oyach.mybatis.dataSources.plugin.SpliteDataSourcePlugin">
             <property name="tableName" value="course:course,course2"/>
         </plugin>
     </plugins>

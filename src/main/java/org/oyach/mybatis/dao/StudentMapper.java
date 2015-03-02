@@ -2,6 +2,7 @@ package org.oyach.mybatis.dao;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.oyach.mybatis.dataSources.util.DataSource;
 import org.oyach.mybatis.dataSources.util.Shared;
 import org.oyach.mybatis.domain.Student;
 
@@ -12,6 +13,7 @@ import org.oyach.mybatis.domain.Student;
  */
 public interface StudentMapper {
 
+    @DataSource("dbWmWrite")
     @Select("select id, name from student where id = #{id}")
     Student findById(@Shared @Param("id")long id);
 

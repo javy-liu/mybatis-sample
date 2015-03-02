@@ -14,7 +14,7 @@ public class StudentMapperTest extends AppTest{
 
     @Test
     public void testFindById() throws Exception {
-        Student student = studentMapper.findById(1L);
+        Student student = studentMapper.findById(20150001L);
         System.out.println(student);
     }
 
