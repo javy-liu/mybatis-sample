@@ -1,5 +1,6 @@
 package org.oyach.mybatis.dataSources.util;
 
+import org.apache.ibatis.io.Resources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +40,7 @@ public abstract class MethodUntil {
         int index = id.lastIndexOf(".");
         String className = id.substring(0, index);
         try {
-            return Class.forName(className);
+            return Resources.classForName(className);
         } catch (ClassNotFoundException e) {
             throw new ClassNotFoundException("class not found. className=" + className);
         }
