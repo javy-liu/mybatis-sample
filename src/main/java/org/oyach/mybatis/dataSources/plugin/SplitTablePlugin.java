@@ -1,5 +1,8 @@
 package org.oyach.mybatis.dataSources.plugin;
 
+import org.apache.commons.lang.ClassUtils;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.builder.StaticSqlSource;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
@@ -8,9 +11,15 @@ import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.oyach.mybatis.dataSources.util.MethodUntil;
+import org.oyach.mybatis.dataSources.util.Shared;
+import org.oyach.mybatis.dataSources.util.StringUtils;
+import org.springframework.core.annotation.AnnotationUtils;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Properties;
 
 /**
@@ -34,6 +43,34 @@ public class SplitTablePlugin implements Interceptor {
         Object[] args = invocation.getArgs();
 
         MappedStatement ms = (MappedStatement) args[0];
+
+        /** 读取接口参数 */
+        String methodId = ms.getId();
+
+        Method mapperMethod = MethodUntil.getMethodById(methodId);
+
+        Parameter[] parameters = mapperMethod.getParameters();
+
+        String sharedField = null;
+        Class sharedFieldType = null;
+        for (Parameter parameter : parameters){
+            Shared shared = parameter.getAnnotation(Shared.class);
+            if (shared != null){
+                sharedFieldType = parameter.getType();
+                Param param = parameter.getAnnotation(Param.class);
+                if (param == null){
+                    sharedField = parameter.getName();
+                } else {
+                    sharedField = param.value();
+                }
+
+            }
+        }
+        System.out.println(sharedField);
+
+        /** 获取对应id数据 */
+        MapperMethod.ParamMap paramMap = (MapperMethod.ParamMap) args[1];
+        Object id = paramMap.get(sharedField);
 
         SqlSource sqlSource = ms.getSqlSource();
 
