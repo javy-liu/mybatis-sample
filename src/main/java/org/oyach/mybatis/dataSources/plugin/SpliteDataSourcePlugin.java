@@ -3,8 +3,10 @@ package org.oyach.mybatis.dataSources.plugin;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.ParameterMap;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.*;
+import org.apache.ibatis.reflection.MetaClass;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
@@ -37,6 +39,8 @@ public class SpliteDataSourcePlugin implements Interceptor {
         SqlSource sqlSource = ms.getSqlSource();
 
         Configuration configuration = ms.getConfiguration();
+
+        ParameterMap parameterMap = configuration.getParameterMap(ms.getId());
 
         Environment environment = configuration.getEnvironment();
 
