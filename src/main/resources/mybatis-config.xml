@@ -15,7 +15,9 @@
         <!-- 是否使用插入数据后自增主键的值，需要配合keyProperty使用 -->
         <setting name="useGeneratedKeys" value="true"/>
     </settings>
-    
+
+    <!--<objectFactory type="org.oyach.mybatis.dataSources.util.ExampleObjectFactory"></objectFactory>-->
+
     <plugins>
         <!--<plugin interceptor="org.oyach.mybatis.dataSources.plugin.SplitTablePlugin">-->
             <!--<property name="tableName" value="course:course,course2"/>-->
@@ -24,4 +26,5 @@
             <property name="tableName" value="course:course,course2"/>
         </plugin>
     </plugins>
+
 </configuration>

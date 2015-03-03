@@ -1,6 +1,9 @@
 package org.oyach.mybatis.dataSources.plugin;
 
+import org.apache.ibatis.binding.MapperRegistry;
 import org.apache.ibatis.executor.Executor;
+import org.apache.ibatis.executor.parameter.ParameterHandler;
+import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.io.ResolverUtil;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.mapping.*;
@@ -10,8 +13,10 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.oyach.mybatis.dao.StudentMapper;
 import org.oyach.mybatis.dataSources.util.MultipleDataSource;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -22,9 +27,12 @@ import java.util.Properties;
  * @since 0.0.1
  */
 @Intercepts({
-        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
-        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class,
-                ResultHandler.class})
+//        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
+//        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class,
+//                ResultHandler.class}),
+//        @Signature(type = StatementHandler.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class,
+//                ResultHandler.class}),
+        @Signature(type = ParameterHandler.class, method = "getParameterObject", args = {})
 })
 public class SpliteDataSourcePlugin implements Interceptor {
 
@@ -46,6 +54,9 @@ public class SpliteDataSourcePlugin implements Interceptor {
         ResultMap resultMap = resultMaps.get(0);
 
         String id = resultMap.getId();
+
+        MapperRegistry mapperRegistry = configuration.getMapperRegistry();
+
 
 
         Environment environment = configuration.getEnvironment();
