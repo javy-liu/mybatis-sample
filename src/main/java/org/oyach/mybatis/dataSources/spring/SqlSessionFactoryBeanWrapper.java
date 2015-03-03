@@ -8,4 +8,6 @@ import org.mybatis.spring.SqlSessionFactoryBean;
  * @since 0.0.1
  */
 public class SqlSessionFactoryBeanWrapper extends SqlSessionFactoryBean {
+
+
 }

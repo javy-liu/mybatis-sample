@@ -1,6 +1,8 @@
 package org.oyach.mybatis.dataSources.plugin;
 
+import org.apache.ibatis.binding.MapperProxy;
 import org.apache.ibatis.binding.MapperRegistry;
+import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
@@ -16,6 +18,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.oyach.mybatis.dao.StudentMapper;
 import org.oyach.mybatis.dataSources.util.MultipleDataSource;
 
+import java.io.InputStream;
+import java.io.Reader;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -27,12 +31,12 @@ import java.util.Properties;
  * @since 0.0.1
  */
 @Intercepts({
-//        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
-//        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class,
-//                ResultHandler.class}),
+        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
+        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class,
+                ResultHandler.class})
 //        @Signature(type = StatementHandler.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class,
 //                ResultHandler.class}),
-        @Signature(type = ParameterHandler.class, method = "getParameterObject", args = {})
+//        @Signature(type = ParameterHandler.class, method = "getParameterObject", args = {})
 })
 public class SpliteDataSourcePlugin implements Interceptor {
 
@@ -57,7 +61,15 @@ public class SpliteDataSourcePlugin implements Interceptor {
 
         MapperRegistry mapperRegistry = configuration.getMapperRegistry();
 
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
 
+        for (StackTraceElement stackTraceElement : stackTraceElements){
+            if (stackTraceElement.getClassName().equals(MapperProxy.class.getName())){
+                System.out.println(stackTraceElement);
+
+            }
+
+        }
 
         Environment environment = configuration.getEnvironment();
 
