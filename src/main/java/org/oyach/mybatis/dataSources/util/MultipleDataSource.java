@@ -2,6 +2,7 @@ package org.oyach.mybatis.dataSources.util;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,8 @@ public class MultipleDataSource extends AbstractRoutingDataSource {
 
 
     private static final ThreadLocal<String> dataSourceKey = new ThreadLocal<String>();
+    private static final ThreadLocal<Method> cacheMethod = new ThreadLocal<Method>();
+
     private static final Map<String, String> packageDataSource = new HashMap<String, String>();
 
     public MultipleDataSource() {
@@ -40,6 +43,16 @@ public class MultipleDataSource extends AbstractRoutingDataSource {
 
     public void setPackageDataSource(Map<String, String> packageDataSource) {
         packageDataSource.putAll(packageDataSource);
+    }
+
+    public static Method getMethod() {
+
+        return cacheMethod.get();
+    }
+
+    public static void setMethod(Method method) {
+
+        cacheMethod.set(method);
     }
 }
 

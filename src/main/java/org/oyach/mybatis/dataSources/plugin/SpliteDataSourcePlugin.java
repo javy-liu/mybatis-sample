@@ -12,14 +12,20 @@ import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaClass;
 import org.apache.ibatis.reflection.SystemMetaObject;
+import org.apache.ibatis.reflection.invoker.Invoker;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.oyach.mybatis.dao.StudentMapper;
 import org.oyach.mybatis.dataSources.util.MultipleDataSource;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import java.io.InputStream;
 import java.io.Reader;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +44,9 @@ import java.util.Properties;
 //                ResultHandler.class}),
 //        @Signature(type = ParameterHandler.class, method = "getParameterObject", args = {})
 })
-public class SpliteDataSourcePlugin implements Interceptor {
+public class SpliteDataSourcePlugin implements Interceptor{
+
+    private ApplicationContext applicationContext;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -46,41 +54,17 @@ public class SpliteDataSourcePlugin implements Interceptor {
         Object[] args = invocation.getArgs();
 
         MappedStatement ms = (MappedStatement) args[0];
+        // 获取调用接口方法
+        // 该方法中会有来自xml 和 annotation的配置
+        Method method = MultipleDataSource.getMethod();
 
-        String databaseId = ms.getDatabaseId();
+        // 重新构造对象进行调用
 
-        SqlSource sqlSource = ms.getSqlSource();
+        BoundSql boundSql = ms.getBoundSql(args[1]);
 
-        Configuration configuration = ms.getConfiguration();
-
-        List<ResultMap> resultMaps =  ms.getResultMaps();
-
-        ResultMap resultMap = resultMaps.get(0);
-
-        String id = resultMap.getId();
-
-        MapperRegistry mapperRegistry = configuration.getMapperRegistry();
-
-        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-
-        for (StackTraceElement stackTraceElement : stackTraceElements){
-            if (stackTraceElement.getClassName().equals(MapperProxy.class.getName())){
-                System.out.println(stackTraceElement);
-
-            }
-
-        }
-
-        Environment environment = configuration.getEnvironment();
-
-        MultipleDataSource dataSource = (MultipleDataSource) environment.getDataSource();
-
-        // 决定数数据库
-        Map<String, String> packageDataSource = dataSource.getPackageDataSource();
-
-        MultipleDataSource.setDataSourceKey("dbWmRead");
-
-
+        MetaClass metaClass = MetaClass.forClass(BoundSql.class);
+        Invoker invoker = metaClass.getSetInvoker("sql");
+        invoker.invoke(boundSql, new Object[]{"rrrrr"});
         return invocation.proceed();
     }
 
@@ -95,4 +79,5 @@ public class SpliteDataSourcePlugin implements Interceptor {
     public void setProperties(Properties properties) {
         System.out.println("=======SpliteDataSourcePlugin-setProperties====");
     }
+
 }

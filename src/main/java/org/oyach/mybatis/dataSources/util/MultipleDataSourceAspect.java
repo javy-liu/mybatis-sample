@@ -42,6 +42,7 @@ public class MultipleDataSourceAspect {
             if(signature instanceof MethodSignature) {
                 MethodSignature methodSignature = (MethodSignature)signature;
                 Method method = methodSignature.getMethod();
+                MultipleDataSource.setMethod(method);
                 if(method.isAnnotationPresent(DataSource.class)) {
                     return this.dsSettingInMethod(method);
                 }

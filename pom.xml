@@ -58,6 +58,11 @@
             <version>4.1.5.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>4.1.5.RELEASE</version>
+        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
