@@ -165,7 +165,6 @@ public class MySqlParser implements SqlParser {
             replaceTableName(item.getValue(), tableName, replaceTableName);
         }
         /** where */
-        // TODO 获取维度
         replaceTableName(mySqlUpdateStatement.getWhere(), tableName, replaceTableName);
         /** oreder by */
         SQLOrderBy orderBy = mySqlUpdateStatement.getOrderBy();
@@ -194,7 +193,6 @@ public class MySqlParser implements SqlParser {
         /** from */
         replaceTableName(mySqlDeleteStatement.getTableSource(), tableName, replaceTableName);
         /** where */
-        // TODO 获取维度
         replaceTableName(mySqlDeleteStatement.getWhere(), tableName, replaceTableName);
         /** order by */
         SQLOrderBy orderBy = mySqlDeleteStatement.getOrderBy();
