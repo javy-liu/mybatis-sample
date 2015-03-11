@@ -18,6 +18,8 @@ public class Student {
     // 学生姓名
     private String name;
 
+    private long s_id;
+
     // 该学生上过的课程
     private List<Course> courses = new ArrayList<Course>();
 
@@ -43,6 +45,15 @@ public class Student {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+
+    public long getS_id() {
+        return s_id;
+    }
+
+    public void setS_id(long s_id) {
+        this.s_id = s_id;
     }
 
     @Override

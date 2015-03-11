@@ -18,7 +18,7 @@ public class StudentMapperTest extends AppTest{
 
     @Test
     public void testFindById() throws Exception {
-        Student student = studentMapper.findById(20150001L);
+        Student student = studentMapper.findById(20150002L);
         System.out.println(student);
         Student student1 = studentMapper.findByIdAndName(1L, "aaaa");
         System.out.println(student);
@@ -28,5 +28,15 @@ public class StudentMapperTest extends AppTest{
     public void testFindByIdAndName() throws Exception {
         Student student = studentMapper.findByIdAndName(1L, "aaaa");
         System.out.println(student);
+    }
+
+    @Test
+    public void testInsertStudent() throws Exception {
+        Student student = new Student();
+        student.setId(4L);
+        student.setName("aaaasdsadasd");
+        long row = studentMapper.insertStudent(student);
+
+        System.out.println(row);
     }
 }

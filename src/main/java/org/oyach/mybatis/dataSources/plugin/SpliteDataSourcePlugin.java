@@ -61,11 +61,11 @@ public class SpliteDataSourcePlugin implements Interceptor{
         // 重新构造对象进行调用
 
         BoundSql boundSql = ms.getBoundSql(args[1]);
-
         MetaClass metaClass = MetaClass.forClass(BoundSql.class);
         Invoker invoker = metaClass.getSetInvoker("sql");
-        invoker.invoke(boundSql, new Object[]{"rrrrr"});
-        return invocation.proceed();
+        invoker.invoke(boundSql, new Object[]{"select id, name from student where id = 20150001 or id = 20150003"});
+        Object obj = invocation.proceed();
+        return obj;
     }
 
     @Override
