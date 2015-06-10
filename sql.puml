@@ -1,0 +1,19 @@
+@startuml
+
+interface SqlSession
+class DefaultSqlSession
+class SqlSessionManager
+class SqlSessionTemplate
+
+interface SqlSessionFactory
+class DefaultSqlSessionFactory
+
+SqlSession <|... DefaultSqlSession
+SqlSession <|... SqlSessionManager
+SqlSession <|... SqlSessionTemplate
+SqlSessionFactory <|... SqlSessionManager
+SqlSessionFactory <|... DefaultSqlSessionFactory
+
+
+
+@enduml
