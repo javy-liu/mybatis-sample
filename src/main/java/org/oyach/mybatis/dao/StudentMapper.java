@@ -1,5 +1,6 @@
 package org.oyach.mybatis.dao;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.oyach.mybatis.dataSources.util.DataSource;
@@ -19,4 +20,7 @@ public interface StudentMapper {
 
     @Select("select id, name from student where id = #{id} and name = #{name}")
     Student findByIdAndName(@Param("id")long id, String name);
+
+    @Insert("insert into student(id, name) values(#{s_id},#{name})")
+    long insertStudent(Student student);
 }
