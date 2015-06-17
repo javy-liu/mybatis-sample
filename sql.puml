@@ -14,6 +14,4 @@ SqlSession <|... SqlSessionTemplate
 SqlSessionFactory <|... SqlSessionManager
 SqlSessionFactory <|... DefaultSqlSessionFactory
 
-
-
 @enduml
